@@ -1,0 +1,21 @@
+# Maven
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Imágenes subidas en local por el cliente
+uploads/
+
+# Secretos y configuración local
+.env
+*.local.*
+
+# Sistema
+.DS_Store
+Thumbs.db
