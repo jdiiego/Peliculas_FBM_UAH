@@ -31,13 +31,13 @@ public record PeliculaRequestDTO (
         @Size(max = 50, message = "El género no puede exceder los 50 caracteres")
         String genero,
 
-        @NotBlank(message = "La sinopsis no puede estar vacío")
+        @NotBlank(message = "La sinopsis no puede estar vacía")
         @Size(max = 2000, message = "La sinopsis no puede exceder los 2000 caracteres")
         String sinopsis,
 
         @Size(max = 250, message = "La imagen no puede exceder los 250 caracteres")
         String imagen,
 
-        List<Integer> actores
+        List<@NotNull Integer> actores
 ) {
 }

@@ -76,9 +76,11 @@ public class PeliculaServiceImpl implements PeliculaService{
             return;
         }
 
-        List<Actor> actoresEncontrados = actoresRepository.findAllById(idsActores);
+        List<Integer> idsUnicos = idsActores.stream().distinct().toList();
 
-        if (actoresEncontrados.size() != idsActores.size()) {
+        List<Actor> actoresEncontrados = actoresRepository.findAllById(idsUnicos);
+
+        if (actoresEncontrados.size() != idsUnicos.size()) {
             throw new ResourceNotFoundException("Uno o más IDs de actores proporcionados no existen en la base de datos.");
         }
 
