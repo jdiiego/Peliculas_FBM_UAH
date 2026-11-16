@@ -21,13 +21,6 @@ public class ActorServiceImpl implements ActorService{
     }
 
     @Override
-    public List<ActorResponseDTO> buscarTodos() {
-        return actoresRepository.findAll().stream()
-                .map(ActorResponseDTO::fromEntity)
-                .toList();
-    }
-
-    @Override
     public ActorResponseDTO buscarPorId(Integer id) {
         return actoresRepository.findById(id)
                 .map(ActorResponseDTO::fromEntity)

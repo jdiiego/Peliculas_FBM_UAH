@@ -5,7 +5,6 @@ import es.uah.peliculasActores.dto.ActorResponseDTO;
 import java.util.List;
 
 public interface ActorService {
-    List<ActorResponseDTO> buscarTodos();
 
     ActorResponseDTO buscarPorId(Integer id);
 
