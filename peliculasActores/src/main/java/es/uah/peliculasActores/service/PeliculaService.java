@@ -9,9 +9,9 @@ public interface PeliculaService {
 
     List<PeliculaResponseDTO> buscar(String titulo, String genero, String nombre);
 
-    PeliculaResponseDTO guardar(PeliculaResponseDTO dto);
+    PeliculaResponseDTO guardar(PeliculaRequestDTO dto);
 
-    PeliculaResponseDTO actualizar(Integer id, PeliculaResponseDTO dto);
+    PeliculaResponseDTO actualizar(Integer id, PeliculaRequestDTO dto);
 
     void eliminar(Integer id);
 }

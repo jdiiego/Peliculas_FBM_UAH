@@ -1,5 +1,6 @@
 package es.uah.peliculasActores.model;
 
+import es.uah.peliculasActores.dto.PeliculaRequestDTO;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -38,6 +39,23 @@ public class Pelicula {
     private List<Actor> actores = new ArrayList<>();
 
     public Pelicula() {
+    }
+
+    public Pelicula(PeliculaRequestDTO dto) {
+        actualizarDesdeDTO(dto);
+    }
+
+    public void actualizarDesdeDTO(PeliculaRequestDTO dto) {
+        if (dto != null) {
+            this.titulo = dto.titulo();
+            this.anio = dto.anio();
+            this.duracion = dto.duracion();
+            this.pais = dto.pais();
+            this.director = dto.director();
+            this.genero = dto.genero();
+            this.sinopsis = dto.sinopsis();
+            this.imagen = dto.imagen();
+        }
     }
 
     public List<Actor> getActores() {

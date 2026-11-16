@@ -23,6 +23,10 @@ Diferencias deliberadas con el proyecto de la asignatura (aplicación de cursos,
 
 - **Una búsqueda por entidad con filtros opcionales y combinables** (`GET /api/peliculas?titulo=…&genero=…&actor=…`) en vez de un método y una ruta por campo (`/api/cursos/nombre/{nombre}`). Permite combinar filtros, sigue la convención REST de filtrar la colección con parámetros y evita repetir cinco búsquedas en cada capa (repositorio, servicio, controlador, cliente y vista). Se implementa con un único método `@Query` en JPQL por repositorio.
 
+## Reparto (relación N:M)
+
+- **El reparto viaja dentro de la película** (`"actores": [1, 3]` en `PeliculaRequestDTO`) en vez de endpoints aparte para añadir o quitar cada relación (`POST /api/alumnos/{id}/cursos/{idCurso}` en el ejemplo). El reparto forma parte de la ficha de la película, se edita en el mismo formulario y una película no queda nunca a medio crear. Cada envío sustituye el reparto anterior. Si se pide un id de actor que no existe, se responde 404.
+
 ## Estilo
 
 - **Servicios sin el prefijo `I`** (`ActorService` + `ActorServiceImpl` en vez de `IActorService`): el prefijo es una convención de C#, no de Java/Spring.

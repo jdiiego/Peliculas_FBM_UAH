@@ -2,6 +2,8 @@ package es.uah.peliculasActores.dto;
 
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 public record PeliculaRequestDTO (
         @NotBlank(message = "El título de la pelicula no puede estar vacío")
         @Size(max = 150, message = "El título no puede exceder los 150 caracteres")
@@ -33,7 +35,9 @@ public record PeliculaRequestDTO (
         @Size(max = 2000, message = "La sinopsis no puede exceder los 2000 caracteres")
         String sinopsis,
 
-        @Size(max = 250, message = "La imagne no puede exceder los 250 caracteres")
-        String imagen
+        @Size(max = 250, message = "La imagen no puede exceder los 250 caracteres")
+        String imagen,
+
+        List<Integer> actores
 ) {
 }
