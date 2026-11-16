@@ -1,5 +1,6 @@
 package es.uah.peliculasActores.model;
 
+import es.uah.peliculasActores.dto.ActorRequestDTO;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +24,11 @@ public class Actor {
     @ManyToMany(mappedBy = "actores")
     private List<Pelicula> peliculas = new ArrayList<>();
 
-    public Actor() {
+    public Actor(){
+    }
+
+    public Actor(ActorRequestDTO dto) {
+        actualizarDesdeDTO(dto);
     }
 
     public List<Pelicula> getPeliculas() {
@@ -32,6 +37,14 @@ public class Actor {
 
     public void setPeliculas(List<Pelicula> peliculas) {
         this.peliculas = peliculas != null ? peliculas : new ArrayList<>();
+    }
+
+    public void actualizarDesdeDTO(ActorRequestDTO dto) {
+        if (dto != null) {
+            this.nombre = dto.nombre();
+            this.paisNacimiento = dto.paisNacimiento();
+            this.fechaNacimiento = dto.fechaNacimiento();
+        }
     }
 
     public Integer getIdActor() {

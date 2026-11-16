@@ -44,6 +44,7 @@ En `C:\Users\jdieg\Downloads\calse UAH\CodigoSesionN\CodigoSesionN\` (la 5 está
 
 ## Decisiones (14-nov-2026)
 - **El código del profesor es un ejemplo, no una norma.** Se respeta su arquitectura (dos microservicios, capas, records, `ProblemDetail`, `RestClient`, Thymeleaf), pero lo que esté anticuado o sea mejorable se hace con lo actual de Java/Spring. Cada desviación se anota en `docs/mejoras.md` con su porqué, para la memoria y el anexo de IA.
+- **Búsquedas (16-nov-2026):** una sola búsqueda por entidad con filtros opcionales combinables (`GET /api/peliculas?titulo=&genero=&actor=`), con un único método `@Query` (JPQL) por repositorio, en vez de un método y una ruta por campo como el profesor. Servicios sin prefijo `I` (`ActorService`).
 - **Git:** un solo repositorio con los dos microservicios como carpetas, rama `main`. Remoto: `https://github.com/jdiiego/Peliculas_FBM_UAH` (privado). **Todo en español** (mensajes de commit, comentarios y nombres en el código); prevalece sobre la regla global de inglés. Commits pequeños con prefijo Conventional Commits (`feat:`, `fix:`, `docs:`…), sin líneas de coautoría. Los hago yo (el alumno) salvo que pida lo contrario; nunca `push` sin preguntar. `gh` no está instalado: el repositorio de GitHub se crea desde la web.
 
 ## Entorno (14-nov-2026)
