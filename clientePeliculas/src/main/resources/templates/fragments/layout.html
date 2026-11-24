@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<!--
+  Piezas comunes a todas las páginas. Cada vista las incluye con
+  th:replace="~{fragments/layout :: cabecera('Título')}" y similares,
+  así el <head>, el menú y los mensajes no se repiten en cada plantilla.
+-->
+<head th:fragment="cabecera(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' | Películas UAH'">Películas UAH</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<nav th:fragment="menu" class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Películas UAH</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" th:href="@{/peliculas}">Películas</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/actores}">Actores</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Mensajes de éxito o error que llegan tras una redirección (flash attributes). -->
+<div th:fragment="mensajes">
+    <div th:if="${msgExito}" class="alert alert-success" role="status" th:text="${msgExito}"></div>
+    <div th:if="${msgError}" class="alert alert-danger" role="alert" th:text="${msgError}"></div>
+</div>
+
+<th:block th:fragment="scripts">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Inicio')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container">
+    <h1 class="mb-4">Gestión de películas</h1>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h4 card-title">Películas</h2>
+                    <p class="card-text">Fichas con su reparto y portada. Búsqueda por título, género y actor.</p>
+                    <a class="btn btn-primary" th:href="@{/peliculas}">Ver películas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h4 card-title">Actores</h2>
+                    <p class="card-text">Fichas de actores. Búsqueda por nombre y país de nacimiento.</p>
+                    <a class="btn btn-primary" th:href="@{/actores}">Ver actores</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

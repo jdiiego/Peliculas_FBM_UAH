@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Actores')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h1 class="mb-0">Actores</h1>
+        <a class="btn btn-primary" th:href="@{/actores/nuevo}">Nuevo actor</a>
+    </div>
+
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <!-- Búsqueda: GET a la misma página; los campos vacíos no filtran. -->
+    <form class="row g-2 align-items-end mb-4" th:action="@{/actores}" method="get" role="search">
+        <div class="col-sm-5">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="search" class="form-control" id="nombre" name="nombre" th:value="${nombre}">
+        </div>
+        <div class="col-sm-4">
+            <label for="paisNacimiento" class="form-label">País de nacimiento</label>
+            <input type="search" class="form-control" id="paisNacimiento" name="paisNacimiento"
+                   th:value="${paisNacimiento}">
+        </div>
+        <div class="col-sm-3 d-flex gap-2">
+            <button type="submit" class="btn btn-secondary">Buscar</button>
+            <a class="btn btn-outline-secondary" th:href="@{/actores}">Limpiar</a>
+        </div>
+    </form>
+
+    <p th:if="${#lists.isEmpty(actores)}" class="text-muted">No hay actores que coincidan con la búsqueda.</p>
+
+    <div th:unless="${#lists.isEmpty(actores)}" class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Fecha de nacimiento</th>
+                <th scope="col">País de nacimiento</th>
+                <th scope="col">Películas</th>
+                <th scope="col"><span class="visually-hidden">Acciones</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="actor : ${actores}">
+                <td th:text="${actor.nombre}"></td>
+                <td th:text="${#temporals.format(actor.fechaNacimiento, 'dd/MM/yyyy')}"></td>
+                <td th:text="${actor.paisNacimiento}"></td>
+                <td th:text="${#lists.size(actor.peliculas)}"></td>
+                <td class="text-end text-nowrap">
+                    <a class="btn btn-sm btn-outline-primary"
+                       th:href="@{/actores/{id}/editar(id=${actor.idActor})}">Editar</a>
+                    <form class="d-inline" method="post"
+                          th:action="@{/actores/{id}/eliminar(id=${actor.idActor})}"
+                          th:attr="onsubmit=|return confirm('¿Eliminar a ${actor.nombre}? Se quitará de los repartos.')|">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

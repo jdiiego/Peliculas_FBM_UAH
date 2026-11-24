@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<!-- Spring Boot muestra esta página para cualquier error no controlado (p. ej. el backend apagado). -->
+<head th:replace="~{fragments/layout :: cabecera('Error')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container">
+    <h1>Algo ha fallado</h1>
+    <p>No se ha podido completar la operación. Si el problema continúa, comprueba que el servicio de películas
+        está en marcha.</p>
+    <p class="text-muted" th:if="${status}" th:text="|Código: ${status}|"></p>
+    <a class="btn btn-primary" th:href="@{/}">Volver al inicio</a>
+</main>
+</body>
+</html>

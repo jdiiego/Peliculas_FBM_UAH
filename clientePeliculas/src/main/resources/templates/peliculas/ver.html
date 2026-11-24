@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera(${pelicula.titulo})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container" th:object="${pelicula}">
+    <nav aria-label="Ruta">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/peliculas}">Películas</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="*{titulo}"></li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <!-- La portada se sirve desde la carpeta uploads del cliente; sin portada se muestra un hueco. -->
+            <img th:if="*{imagen}" th:src="@{/uploads/{f}(f=*{imagen})}" th:alt="|Portada de *{titulo}|"
+                 class="img-fluid rounded border" width="400" height="600" loading="lazy">
+            <div th:unless="*{imagen}"
+                 class="ratio bg-light border rounded d-flex align-items-center justify-content-center text-muted"
+                 style="--bs-aspect-ratio: 150%;">
+                <span class="d-flex align-items-center justify-content-center">Sin portada</span>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h1 th:text="*{titulo}"></h1>
+            <dl class="row">
+                <dt class="col-sm-3">Año</dt>
+                <dd class="col-sm-9" th:text="*{anio}"></dd>
+                <dt class="col-sm-3">Duración</dt>
+                <dd class="col-sm-9" th:text="*{duracion} + ' min.'"></dd>
+                <dt class="col-sm-3">País</dt>
+                <dd class="col-sm-9" th:text="*{pais}"></dd>
+                <dt class="col-sm-3">Dirección</dt>
+                <dd class="col-sm-9" th:text="*{director}"></dd>
+                <dt class="col-sm-3">Género</dt>
+                <dd class="col-sm-9" th:text="*{genero}"></dd>
+                <dt class="col-sm-3">Sinopsis</dt>
+                <dd class="col-sm-9" th:text="*{sinopsis}"></dd>
+            </dl>
+
+            <h2 class="h4 mt-4">Reparto</h2>
+            <p th:if="*{#lists.isEmpty(actores)}" class="text-muted">Esta película no tiene reparto asignado.</p>
+            <ul th:unless="*{#lists.isEmpty(actores)}" class="list-group mb-4">
+                <li th:each="a : *{actores}" class="list-group-item d-flex justify-content-between">
+                    <span th:text="${a.nombre}"></span>
+                    <span class="text-muted" th:text="${a.paisNacimiento}"></span>
+                </li>
+            </ul>
+
+            <a class="btn btn-primary" th:href="@{/peliculas/{id}/editar(id=*{idPelicula})}">Editar</a>
+            <a class="btn btn-outline-secondary" th:href="@{/peliculas}">Volver al listado</a>
+        </div>
+    </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
