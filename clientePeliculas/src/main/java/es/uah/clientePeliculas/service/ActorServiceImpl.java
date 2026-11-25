@@ -1,6 +1,7 @@
 package es.uah.clientePeliculas.service;
 
 import es.uah.clientePeliculas.model.Actor;
+import es.uah.clientePeliculas.model.ActorForm;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -35,6 +36,24 @@ public class ActorServiceImpl implements ActorService {
     public Actor buscarPorId(Integer id) {
         return restClient.get()
                 .uri(RUTA + "/{id}", id)
+                .retrieve()
+                .body(Actor.class);
+    }
+
+    @Override
+    public Actor guardar(ActorForm form) {
+        return restClient.post()
+                .uri(RUTA)
+                .body(form)
+                .retrieve()
+                .body(Actor.class);
+    }
+
+    @Override
+    public Actor actualizar(Integer id, ActorForm form) {
+        return restClient.put()
+                .uri(RUTA + "/{id}", id)
+                .body(form)
                 .retrieve()
                 .body(Actor.class);
     }

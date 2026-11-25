@@ -1,6 +1,7 @@
 package es.uah.clientePeliculas.service;
 
 import es.uah.clientePeliculas.model.Pelicula;
+import es.uah.clientePeliculas.model.PeliculaForm;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -36,6 +37,24 @@ public class PeliculaServiceImpl implements PeliculaService {
     public Pelicula buscarPorId(Integer id) {
         return restClient.get()
                 .uri(RUTA + "/{id}", id)
+                .retrieve()
+                .body(Pelicula.class);
+    }
+
+    @Override
+    public Pelicula guardar(PeliculaForm form) {
+        return restClient.post()
+                .uri(RUTA)
+                .body(form)
+                .retrieve()
+                .body(Pelicula.class);
+    }
+
+    @Override
+    public Pelicula actualizar(Integer id, PeliculaForm form) {
+        return restClient.put()
+                .uri(RUTA + "/{id}", id)
+                .body(form)
                 .retrieve()
                 .body(Pelicula.class);
     }

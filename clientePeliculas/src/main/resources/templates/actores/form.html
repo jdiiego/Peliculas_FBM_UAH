@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera(${idActor} ? 'Editar actor' : 'Nuevo actor')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container" style="max-width: 40rem;">
+    <h1 class="mb-4" th:text="${idActor} ? 'Editar actor' : 'Nuevo actor'">Nuevo actor</h1>
+
+    <!-- Si hay id se edita (POST /actores/{id}/editar); si no, se crea (POST /actores/nuevo). -->
+    <form th:object="${actor}" method="post" novalidate
+          th:action="${idActor} ? @{/actores/{id}/editar(id=${idActor})} : @{/actores/nuevo}">
+
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+            <p class="mb-0" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{nombre}" th:errorclass="is-invalid"
+                   maxlength="100" required>
+            <div class="invalid-feedback" th:errors="*{nombre}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="fechaNacimiento" class="form-label">Fecha de nacimiento</label>
+            <input type="date" class="form-control" th:field="*{fechaNacimiento}" th:errorclass="is-invalid" required>
+            <div class="invalid-feedback" th:errors="*{fechaNacimiento}"></div>
+        </div>
+
+        <div class="mb-4">
+            <label for="paisNacimiento" class="form-label">País de nacimiento</label>
+            <input type="text" class="form-control" th:field="*{paisNacimiento}" th:errorclass="is-invalid"
+                   maxlength="100" required>
+            <div class="invalid-feedback" th:errors="*{paisNacimiento}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a class="btn btn-outline-secondary" th:href="@{/actores}">Cancelar</a>
+    </form>
+</main>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

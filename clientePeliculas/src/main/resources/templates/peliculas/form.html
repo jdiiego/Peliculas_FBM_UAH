@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera(${idPelicula} ? 'Editar película' : 'Nueva película')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+
+<main class="container" style="max-width: 56rem;">
+    <h1 class="mb-4" th:text="${idPelicula} ? 'Editar película' : 'Nueva película'">Nueva película</h1>
+
+    <!-- multipart/form-data: necesario para enviar el fichero de la portada junto con los datos. -->
+    <form th:object="${pelicula}" method="post" enctype="multipart/form-data" novalidate
+          th:action="${idPelicula} ? @{/peliculas/{id}/editar(id=${idPelicula})} : @{/peliculas/nueva}">
+
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+            <p class="mb-0" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" th:field="*{titulo}" th:errorclass="is-invalid"
+                       maxlength="150" required>
+                <div class="invalid-feedback" th:errors="*{titulo}"></div>
+            </div>
+            <div class="col-6 col-md-2">
+                <label for="anio" class="form-label">Año</label>
+                <input type="number" class="form-control" th:field="*{anio}" th:errorclass="is-invalid"
+                       min="1888" max="2100" required>
+                <div class="invalid-feedback" th:errors="*{anio}"></div>
+            </div>
+            <div class="col-6 col-md-2">
+                <label for="duracion" class="form-label">Duración (min)</label>
+                <input type="number" class="form-control" th:field="*{duracion}" th:errorclass="is-invalid"
+                       min="1" max="600" required>
+                <div class="invalid-feedback" th:errors="*{duracion}"></div>
+            </div>
+
+            <div class="col-md-4">
+                <label for="pais" class="form-label">País</label>
+                <input type="text" class="form-control" th:field="*{pais}" th:errorclass="is-invalid"
+                       maxlength="100" required>
+                <div class="invalid-feedback" th:errors="*{pais}"></div>
+            </div>
+            <div class="col-md-4">
+                <label for="director" class="form-label">Dirección</label>
+                <input type="text" class="form-control" th:field="*{director}" th:errorclass="is-invalid"
+                       maxlength="100" required>
+                <div class="invalid-feedback" th:errors="*{director}"></div>
+            </div>
+            <div class="col-md-4">
+                <label for="genero" class="form-label">Género</label>
+                <!-- datalist: sugiere géneros habituales sin impedir escribir otro. -->
+                <input type="text" class="form-control" th:field="*{genero}" th:errorclass="is-invalid"
+                       list="listaGeneros" maxlength="50" required>
+                <datalist id="listaGeneros">
+                    <option th:each="g : ${generos}" th:value="${g}"></option>
+                </datalist>
+                <div class="invalid-feedback" th:errors="*{genero}"></div>
+            </div>
+
+            <div class="col-12">
+                <label for="sinopsis" class="form-label">Sinopsis</label>
+                <textarea class="form-control" th:field="*{sinopsis}" th:errorclass="is-invalid"
+                          rows="4" maxlength="2000" required></textarea>
+                <div class="invalid-feedback" th:errors="*{sinopsis}"></div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="portada" class="form-label">Portada</label>
+                <input type="file" class="form-control" id="portada" name="portada"
+                       accept="image/jpeg,image/png,image/webp,image/gif"
+                       th:classappend="${#fields.hasErrors('imagen')} ? 'is-invalid'"
+                       aria-describedby="ayudaPortada">
+                <div class="invalid-feedback" th:errors="*{imagen}"></div>
+                <div id="ayudaPortada" class="form-text">
+                    JPG, PNG, WebP o GIF, hasta 5 MB.
+                    <span th:if="*{imagen}">Si eliges otra, sustituirá a la actual.</span>
+                </div>
+                <!-- Nombre de la portada actual: se conserva si no se sube otra. -->
+                <input type="hidden" th:field="*{imagen}">
+                <img th:if="*{imagen}" th:src="@{/uploads/{f}(f=*{imagen})}" alt="Portada actual"
+                     class="img-thumbnail mt-2" width="120" height="180" style="object-fit: cover;">
+            </div>
+
+            <fieldset class="col-md-6">
+                <legend class="form-label fs-6">Reparto</legend>
+                <p th:if="${#lists.isEmpty(todosActores)}" class="text-muted">
+                    No hay actores. <a th:href="@{/actores/nuevo}">Crea uno</a> para poder asignarlo.
+                </p>
+                <div class="border rounded p-2 overflow-auto" style="max-height: 14rem;"
+                     th:unless="${#lists.isEmpty(todosActores)}">
+                    <div class="form-check" th:each="a : ${todosActores}">
+                        <input class="form-check-input" type="checkbox" th:field="*{actores}" th:value="${a.idActor}">
+                        <label class="form-check-label" th:for="${#ids.prev('actores')}" th:text="${a.nombre}"></label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a class="btn btn-outline-secondary" th:href="@{/peliculas}">Cancelar</a>
+        </div>
+    </form>
+</main>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
