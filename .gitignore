@@ -19,3 +19,6 @@ uploads/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Zip de la entrega
+*.zip
